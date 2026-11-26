@@ -31,6 +31,7 @@ const page = () => {
         <IoArrowUpOutline />
       </button>
       <div className="h-screen w-full "></div>
+      <div className="h-screen w-full "></div>
       <Footer />
     </div>
   );
