@@ -56,8 +56,7 @@ export const sampleProducts: Product[] = [
     style: "CW2284-111",
     description:
       "The radiance lives on in the Nike Air Force 1 Low '07, the b-ball icon that puts a fresh spin on what you know best: crisp leather, bold colours and the perfect amount of flash to make you shine. Water-repellent Cordura fabric makes these kicks your favourites on rainy days.",
-    imageUrl:
-      "/original.avif",
+    imageUrl: "/original.avif",
     priceCents: 179900,
     images: [
       { src: "/original.avif", alt: "Nike airforce 1 '07 LVB CD side view" },
@@ -83,6 +82,7 @@ export const sampleProducts: Product[] = [
     compareAtPriceCents: 199900,
     isBestSelling: true,
   },
+
   {
     id: "Adidas_Samba_OG",
     name: "Adidas Samba OG",
@@ -90,9 +90,13 @@ export const sampleProducts: Product[] = [
     color: "White / Black",
     style: "B75806",
     description:
-      "A terrace classic with a smooth leather upper, suede overlays and the signature gum rubber outsole.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=800&q=80",
+      "Born on the pitch, the Samba is a timeless icon of street style. This silhouette stays true to its legacy with a tasteful, low-profile, soft leather upper, suede overlays and gum sole, making it a staple in everyone's closet - on and off the pitch.",
+    imageUrl: "/samba.avif",
+    images: [
+      { src: "/samba.avif", alt: "Adidas Samba OG outsole" },
+      { src: "/samba2.avif", alt: "Adidas Samba OG side view" },
+      { src: "/samba3.avif", alt: "Adidas Samba OG outsole" },
+    ],
     priceCents: 169900,
     compareAtPriceCents: 189900,
     isBestSelling: true,
@@ -126,32 +130,6 @@ export const sampleProducts: Product[] = [
   },
   {
     id: "Adidas_Campus_00s",
-    name: "Adidas Campus 00s",
-    brand: "Adidas",
-    color: "Grey / White",
-    style: "HQ8708",
-    description:
-      "A skate-inspired take on the Campus, updated with a plush suede upper and an oversized, laid-back profile.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80",
-    priceCents: 159900,
-    isBestSelling: false,
-  },
-  {
-    id: "Adidas_Campus_00s_2",
-    name: "Adidas Campus 00s",
-    brand: "Adidas",
-    color: "Grey / White",
-    style: "HQ8708",
-    description:
-      "A skate-inspired take on the Campus, updated with a plush suede upper and an oversized, laid-back profile.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?auto=format&fit=crop&w=800&q=80",
-    priceCents: 159900,
-    isBestSelling: false,
-  },
-  {
-    id: "Adidas_Campus_00s_3",
     name: "Adidas Campus 00s",
     brand: "Adidas",
     color: "Grey / White",

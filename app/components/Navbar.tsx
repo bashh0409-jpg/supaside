@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createBrowserClient } from "@supabase/ssr";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { BiSearch } from "react-icons/bi";
 import { getSupabaseConfig } from "../lib/supabase/config";
 import { useCart } from "../lib/cart-context";
+import SearchModal from "./SearchModal";
 
 function getAvatarUrl(user: User) {
   const image = [
@@ -31,6 +32,7 @@ export default function Navbar() {
   const supabaseUrl = config?.url;
   const supabaseKey = config?.key;
   const [user, setUser] = useState<User | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [authReady, setAuthReady] = useState(
     () => !supabaseUrl || !supabaseKey,
   );
@@ -53,6 +55,7 @@ export default function Navbar() {
   }, [supabaseUrl, supabaseKey]);
 
   const avatarUrl = user ? getAvatarUrl(user) : null;
+  const closeSearch = useCallback(() => setSearchOpen(false), []);
 
   return (
     <>
@@ -86,16 +89,20 @@ export default function Navbar() {
             ))}
         </div>
       </div>
-      <div className="fixed top-2 left-1/2 z-1000 flex min-w-70 -translate-x-1/2 items-center gap-1 rounded-full bg-zinc-200 p-1 pr-2 text-sm font-medium text-black">
+      <button
+        type="button"
+        onClick={() => setSearchOpen(true)}
+        aria-label="Open product search"
+        aria-haspopup="dialog"
+        aria-expanded={searchOpen}
+        className="fixed top-2 left-1/2 z-1000 flex min-w-70 -translate-x-1/2 cursor-text items-center gap-1 rounded-full bg-zinc-200 p-1 pr-2 text-left text-sm font-medium text-black"
+      >
         <span className="items-center rounded-lg bg-black/10 p-1 font-medium text-black">
           <BiSearch />
         </span>
-        <input
-          type="text"
-          placeholder="Search items..."
-          className="border-none bg-transparent focus:outline-none"
-        />
-      </div>
+        <span className="text-black/55">Search items...</span>
+      </button>
+      <SearchModal open={searchOpen} onClose={closeSearch} />
       {authReady && user && (
         <span
           aria-hidden="true"
