@@ -13,13 +13,13 @@ export interface Product {
 }
 
 export const sampleUkSizes = [
-  { size: "3", available: false },
+  { size: "3", available: true },
   { size: "3.5", available: true },
   { size: "4", available: true },
-  { size: "4.5", available: true },
-  { size: "5", available: true },
+  { size: "4.5", available: false },
+  { size: "5", available: false },
   { size: "5.5", available: false },
-  { size: "6", available: true },
+  { size: "6", available: false },
   { size: "6.5", available: true },
   { size: "7", available: true },
   { size: "7.5", available: true },
@@ -28,9 +28,9 @@ export const sampleUkSizes = [
   { size: "9", available: true },
   { size: "9.5", available: false },
   { size: "10", available: true },
-  { size: "10.5", available: false },
+  { size: "10.5", available: true },
   { size: "11", available: true },
-  { size: "12", available: false },
+  { size: "12", available: true },
 ] as const;
 
 export const sampleProducts: Product[] = [

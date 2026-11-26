@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import ProductById from "./ProductById";
 import { sampleProducts } from "../lib/products";
+import Navbar from "../components/Navbar";
 
 export function generateStaticParams() {
   return sampleProducts.map((product) => ({ id: product.id }));
@@ -13,6 +14,7 @@ function ProductDetailsFallback() {
       aria-busy="true"
       className="w-full"
     >
+      <Navbar />
       <div className="flex min-h-screen w-full">
         <div className="min-h-screen w-1/2 animate-pulse bg-black/5" />
         <div className="grid min-h-screen w-1/2 grid-cols-2 gap-6 p-4">

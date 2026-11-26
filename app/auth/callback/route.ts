@@ -42,10 +42,9 @@ export async function GET(request: NextRequest) {
   }
 
   const shouldSendWelcomeEmail =
-    request.nextUrl.searchParams.get("welcome") === "1" &&
-    data.user?.user_metadata.signup_flow === "email";
+    request.nextUrl.searchParams.get("welcome") === "1";
   if (shouldSendWelcomeEmail) {
-    if (!data.user.email) {
+    if (!data.user?.email) {
       console.error("Verified signup has no email address for welcome email.");
       return NextResponse.redirect(
         new URL("/login?error=welcome_email_failed", request.url),

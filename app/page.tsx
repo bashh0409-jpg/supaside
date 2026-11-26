@@ -27,7 +27,7 @@ const page = () => {
         ))}
       </div>
 
-      <button className="fixed bottom-4 text-white right-4 z-10 rounded-full bg-[#999] p-2">
+      <button className="fixed hidden bottom-4 text-white right-4 z-10 rounded-full bg-[#999] p-2">
         <IoArrowUpOutline />
       </button>
       <div className="h-screen w-full "></div>

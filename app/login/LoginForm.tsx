@@ -129,6 +129,7 @@ export default function LoginForm() {
     try {
       const supabase = createBrowserClient(config.url, config.key);
       const redirectTo = new URL("/auth/callback", window.location.origin);
+      redirectTo.searchParams.set("welcome", "1");
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {

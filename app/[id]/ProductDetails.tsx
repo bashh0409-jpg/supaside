@@ -9,6 +9,7 @@ import { sampleProducts, sampleUkSizes } from "../lib/products";
 import type { Product } from "../lib/products";
 import { useCart } from "../lib/cart-context";
 import Footer from "../components/Footer";
+import CloseButton from "../components/CloseButton";
 
 const formatPrice = (priceCents: number) =>
   new Intl.NumberFormat("en-ZA", {
@@ -244,7 +245,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                       addItem(product.id, selectedSize);
                     }
                   }}
-                  className="mt-2 w-fit border border-dashed p-2 text-center duration-300 enabled:cursor-pointer enabled:hover:border-black/20 enabled:hover:text-black/40 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="mt-2 border border-dashed p-2 text-center duration-300 enabled:cursor-pointer enabled:hover:border-black/20 enabled:hover:text-black/40 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Add to cart
                 </button>
@@ -305,6 +306,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             ))}
         </div>
       </section>
+      <CloseButton/>
       <Footer />
     </div>
   );
