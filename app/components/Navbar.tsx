@@ -8,6 +8,7 @@ import Link from "next/link";
 import { BiSearch } from "react-icons/bi";
 import { getSupabaseConfig } from "../lib/supabase/config";
 import { useCart } from "../lib/cart-context";
+import ProfileModal from "./ProfileModal";
 import SearchModal from "./SearchModal";
 
 function getAvatarUrl(user: User) {
@@ -33,6 +34,7 @@ export default function Navbar() {
   const supabaseKey = config?.key;
   const [user, setUser] = useState<User | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [authReady, setAuthReady] = useState(
     () => !supabaseUrl || !supabaseKey,
   );
@@ -56,6 +58,7 @@ export default function Navbar() {
 
   const avatarUrl = user ? getAvatarUrl(user) : null;
   const closeSearch = useCallback(() => setSearchOpen(false), []);
+  const closeProfile = useCallback(() => setProfileOpen(false), []);
 
   return (
     <>
@@ -103,10 +106,21 @@ export default function Navbar() {
         <span className="text-black/55">Search items...</span>
       </button>
       <SearchModal open={searchOpen} onClose={closeSearch} />
+      {user && (
+        <ProfileModal
+          open={profileOpen}
+          user={user}
+          onClose={closeProfile}
+        />
+      )}
       {authReady && user && (
-        <span
-          aria-hidden="true"
-          className="fixed top-3 right-2 z-1001 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-black/10 text-xs font-semibold text-black"
+        <button
+          type="button"
+          onClick={() => setProfileOpen(true)}
+          aria-label="Open profile"
+          aria-haspopup="dialog"
+          aria-expanded={profileOpen}
+          className="fixed top-3 right-2 z-[1001] flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-black/10 text-xs font-semibold text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
         >
           {avatarUrl ? (
             <Image
@@ -120,7 +134,7 @@ export default function Navbar() {
           ) : (
             user.email?.trim().charAt(0).toUpperCase() || "U"
           )}
-        </span>
+        </button>
       )}
     </>
   );
