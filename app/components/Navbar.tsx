@@ -59,7 +59,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 z-999999 left-0 capitalize flex px-2 gap-2 w-full justify-between items-center p-1 text-white mix-blend-difference">
+      <div className="fixed top-0 z-[900] left-0 capitalize flex px-2 gap-2 w-full justify-between items-center p-1 text-white mix-blend-difference">
         <div className="flex gap-8 items-center p-2">
           <div className="text-sm cursor-pointer font-semibold">Supaside</div>
           <p className="text-sm cursor-pointer font-semibold">
