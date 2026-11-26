@@ -6,7 +6,7 @@ import {
   useSyncExternalStore,
   type FormEvent,
 } from "react";
-import { FaApple, FaFacebookSquare } from "react-icons/fa";
+import { FaApple, FaFacebookF  } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { getSupabaseConfig } from "../lib/supabase/config";
 import { MdOutlineAlternateEmail } from "react-icons/md";
@@ -17,6 +17,8 @@ const authErrorMessages: Record<string, string> = {
     "Authentication is not configured yet. Please try again later.",
   callback_failed:
     "That authentication link could not be verified. Please try again.",
+  welcome_email_failed:
+    "Your account is active, but we couldn't send the welcome email. Please contact info@supaside.store.",
 };
 
 function subscribeToLocation(onChange: () => void) {
@@ -55,6 +57,16 @@ export default function LoginForm() {
 
   function showError(error: unknown) {
     setIsError(true);
+    if (
+      error instanceof Error &&
+      error.message.toLowerCase().includes("signups not allowed for otp")
+    ) {
+      setMessage(
+        "Supabase rejected email sign-in or account creation. Confirm this app is using the project where “Allow new users to sign up” is enabled, then try again.",
+      );
+      return;
+    }
+
     setMessage(
       typeof error === "string"
         ? error
@@ -79,11 +91,18 @@ export default function LoginForm() {
     setPendingMethod("email");
     try {
       const supabase = createBrowserClient(config.url, config.key);
+      const emailRedirectTo = new URL(
+        "/auth/callback",
+        window.location.origin,
+      );
+      emailRedirectTo.searchParams.set("welcome", "1");
+
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          emailRedirectTo: emailRedirectTo.toString(),
           shouldCreateUser: true,
+          data: { signup_flow: "email" },
         },
       });
 
@@ -91,7 +110,7 @@ export default function LoginForm() {
         showError(error);
       } else {
         showMessage(
-          "Check your inbox for a link to continue.",
+          "Check your inbox for a secure link to sign in or finish creating your account.",
         );
       }
     } catch (error) {
@@ -115,10 +134,14 @@ export default function LoginForm() {
     setPendingMethod(provider);
     try {
       const supabase = createBrowserClient(config.url, config.key);
+      const redirectTo = new URL(
+        "/auth/callback",
+        window.location.origin,
+      );
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: redirectTo.toString(),
         },
       });
 
@@ -158,7 +181,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={pendingMethod !== null}
-          className="h-8 w-full rounded-full bg-zinc-950 px-5 text-sm font-semibold  font-mono text-white transition hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 disabled:cursor-not-allowed disabled:opacity-60"
+          className="h-8 w-full rounded-full cursor-pointer bg-zinc-950 px-5 text-sm font-semibold  font-mono text-white transition hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-950 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {pendingMethod === "email"
             ? "Sending link..."
@@ -170,41 +193,48 @@ export default function LoginForm() {
         <span>or continue with</span>
       </div>
 
-      <div className="grid grid-cols-3 gap-2">
+      <div className=" flex justify-center gap-2">
         <button
           type="button"
           onClick={() => handleOAuthSignIn("google")}
           disabled={pendingMethod !== null}
-          className="flex h-8 items-center cursor-pointer duration-400  justify-center gap-2 rounded-full bg-black/10 font-semibold uppercase text-sm font-medium text-zinc-800 transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex p-1 px-1 pr-4 items-center cursor-pointer duration-400  justify-center gap-1 rounded-full bg-black/10   text-xs font-semibold text-black transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <FcGoogle
-            aria-hidden="true"
-            fill="black"
-            className="text-black"
-            size={19}
-          />
+          <span className="bg-black/10 rounded-full p-0.5  text-black font-medium items-center">
+            <FcGoogle
+              aria-hidden="true"
+              fill="black"
+              className="text-black"
+              size={19}
+            />
+          </span>
           {pendingMethod === "google" ? "Connecting..." : "Google"}
         </button>
         <button
           type="button"
           onClick={() => handleOAuthSignIn("apple")}
           disabled={pendingMethod !== null}
-          className="flex h-8 items-center cursor-pointer duration-400  justify-center gap-2 rounded-full bg-black/10 font-semibold uppercase text-sm font-medium text-zinc-800 transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex p-1 px-1 pr-4 items-center cursor-pointer duration-400  justify-center gap-1 rounded-full bg-black/10   text-xs font-semibold text-black transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <FaApple aria-hidden="true" className="text-black" size={19} />
+          <span className="bg-black/10 rounded-full p-0.5  text-black font-medium items-center">
+            <FaApple aria-hidden="true" className="text-black" size={19} />
+          </span>
+
           {pendingMethod === "apple" ? "Connecting..." : "Apple"}
         </button>
         <button
           type="button"
           onClick={() => handleOAuthSignIn("facebook")}
           disabled={pendingMethod !== null}
-          className="flex h-8 px-2 items-center cursor-pointer duration-400 justify-center gap-2 rounded-full bg-black/10 font-semibold uppercase text-sm font-medium text-zinc-800 transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex p-1 px-1 pr-4 items-center cursor-pointer duration-400  justify-center gap-1 rounded-full bg-black/10   text-xs font-semibold text-black transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <FaFacebookSquare
-            aria-hidden="true"
-            className="text-[#1877F2]"
-            size={22}
-          />
+          <span className="bg-black/10 rounded-full p-0.5  text-black font-medium items-center">
+            <FaFacebookF
+              aria-hidden="true"
+              className="text-[#1877F2]"
+              size={18}
+            />
+          </span>
           {pendingMethod === "facebook" ? "Connecting..." : "Facebook"}
         </button>
       </div>

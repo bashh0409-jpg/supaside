@@ -18,18 +18,21 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Supabase authentication
 
-The `/login` and `/signup` pages share an email magic-link flow: existing users
-can sign in, and new users can complete account creation from the link. Both
-pages also support Google, Apple, and Facebook OAuth. Add the Supabase project URL and
-public key to `.env.local`:
+The `/login` and `/signup` routes use the same email form and magic-link flow.
+Supabase signs in existing users or creates new accounts automatically. Both
+routes also support Google, Apple, and Facebook OAuth. Add the Supabase project
+URL and public key to `.env.local`:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-public-key
+RESEND_API_KEY=re_your_server_side_key
 ```
 
 `NEXT_PUBLIC_SUPABASE_ANON_KEY` is also accepted as a key name. Never use a
-Supabase secret or service-role key in a `NEXT_PUBLIC_` variable.
+Supabase secret or service-role key in a `NEXT_PUBLIC_` variable. Keep
+`RESEND_API_KEY` server-side; add it to your deployment's environment variables
+as well.
 
 Enable the Email, Google, Apple, and Facebook providers under
 **Authentication → Sign In / Providers** in Supabase. Configure each OAuth
@@ -40,6 +43,28 @@ Use the Supabase OAuth callback URL shown in the provider settings as the
 authorized redirect URL in the Google, Apple, and Facebook developer consoles.
 Configure email delivery in Supabase for magic links, especially before
 production.
+
+### Send auth and welcome emails with Resend
+
+1. Verify `supaside.store` in Resend and configure the DNS records Resend
+   provides.
+2. In Supabase, open **Authentication → SMTP Settings**, enable custom SMTP,
+   and use:
+   - Host: `smtp.resend.com`
+   - Port: `465`
+   - Username: `resend`
+   - Password: a Resend API key
+   - Sender email: `info@supaside.store`
+   - Sender name: `Supaside`
+3. Keep Supabase's magic-link email template using `{{ .ConfirmationURL }}`.
+   The sign-up callback sends a separate welcome email from
+   `Supaside <info@supaside.store>` after the email link is verified.
+4. Add `RESEND_API_KEY` to `.env.local` and your deployment environment. This
+   key is used only by the server-side welcome-email sender. Do not commit the
+   actual key.
+
+`orders@supaside.store` can be used as the sender for future order emails; the
+store does not yet have an implemented checkout/order-email flow.
 
 ## Mux hero video
 

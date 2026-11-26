@@ -1,7 +1,7 @@
 import AuthPage from "../components/AuthPage";
 
 export const metadata = {
-  title: "Create account | Supaside",
+  title: "Sign in or create an account | Supaside",
   description:
     "Create your Supaside account with an email magic link or social account.",
 };
