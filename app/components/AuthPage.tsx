@@ -31,7 +31,7 @@ export default function AuthPage() {
         </div>
       </section>
 
-      <footer className="absolute inset-x-0 bottom-5 z-10 px-4 text-center text-xs font-medium leading-5 text-white">
+      <footer className="absolute inset-x-0 bottom-5 z-10 px-4 text-center text-sm font-medium leading-5 text-white">
 
         <p className="mt-1">© 2026 Supaside. All rights reserved.</p>
       </footer>
