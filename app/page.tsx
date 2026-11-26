@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import HeroVideo from "./components/HeroVideo";
 import { IoArrowUpOutline } from "react-icons/io5";
 import { sampleProducts } from "./lib/products";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -13,12 +14,12 @@ const page = () => {
       <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
         <HeroVideo playbackId={process.env.NEXT_PUBLIC_MUX_PLAYBACK_ID} />
         <div aria-hidden="true" className="absolute inset-0 bg-black/25" />
-        <a
+        <Link
           href="/shop"
           className="relative z-10 w-fit cursor-pointer rounded-full bg-white px-4 p-2 text-sm font-semibold capitalize"
         >
           Shop now
-        </a>
+        </Link>
       </section>
       <div className="h-screen w-full"></div>
       <div className="min-h-screen w-full grid p-4 gap-3 grid-cols-5">
