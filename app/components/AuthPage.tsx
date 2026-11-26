@@ -32,8 +32,8 @@ export default function AuthPage() {
       </section>
 
       <footer className="absolute inset-x-0 bottom-5 z-10 px-4 text-center text-xs font-medium leading-5 text-white">
-        Need a hand? Get in touch with our team.
-        <p className="mt-1">© Supaside. Discover your next favourite.</p>
+
+        <p className="mt-1">© 2026 Supaside. All rights reserved.</p>
       </footer>
     </main>
   );

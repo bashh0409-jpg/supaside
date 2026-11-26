@@ -1,12 +1,9 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
-import {
-  useState,
-  useSyncExternalStore,
-  type FormEvent,
-} from "react";
-import { FaApple, FaFacebookF  } from "react-icons/fa";
+import Link from "next/link";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
+import { FaApple, FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { getSupabaseConfig } from "../lib/supabase/config";
 import { MdOutlineAlternateEmail } from "react-icons/md";
@@ -36,9 +33,9 @@ function getServerAuthErrorCode() {
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
-  const [pendingMethod, setPendingMethod] = useState<
-    "email" | Provider | null
-  >(null);
+  const [pendingMethod, setPendingMethod] = useState<"email" | Provider | null>(
+    null,
+  );
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
   const authErrorCode = useSyncExternalStore(
@@ -91,10 +88,7 @@ export default function LoginForm() {
     setPendingMethod("email");
     try {
       const supabase = createBrowserClient(config.url, config.key);
-      const emailRedirectTo = new URL(
-        "/auth/callback",
-        window.location.origin,
-      );
+      const emailRedirectTo = new URL("/auth/callback", window.location.origin);
       emailRedirectTo.searchParams.set("welcome", "1");
 
       const { error } = await supabase.auth.signInWithOtp({
@@ -134,10 +128,7 @@ export default function LoginForm() {
     setPendingMethod(provider);
     try {
       const supabase = createBrowserClient(config.url, config.key);
-      const redirectTo = new URL(
-        "/auth/callback",
-        window.location.origin,
-      );
+      const redirectTo = new URL("/auth/callback", window.location.origin);
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -238,8 +229,22 @@ export default function LoginForm() {
           {pendingMethod === "facebook" ? "Connecting..." : "Facebook"}
         </button>
       </div>
-      <p className="px-1 text-xs text-center font-medium leading-snug mute">
-        By continuing, you agree to our terms and conditions.
+      <p className="px-1 text-xs text-center font-semibold leading-snug mute">
+        By continuing, you agree to our{" "}
+        <Link
+          href="/terms"
+          className="underline hover:text-foreground transition-colors"
+        >
+          Terms
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/privacy"
+          className="underline hover:text-foreground transition-colors"
+        >
+          Privacy Policy
+        </Link>
+        .
       </p>
       {displayedMessage && (
         <p
