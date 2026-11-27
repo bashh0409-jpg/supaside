@@ -8,6 +8,11 @@ import { MdOutlineClose } from "react-icons/md";
 import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 import { useDialogBehavior } from "../lib/useDialogBehavior";
 import { PROFILE_TABS, type ProfileTab } from "./profile-modal/types";
+import AccountTab from "./profile-modal/tabs/AccountTab";
+import ShippingTab from "./profile-modal/tabs/ShippingTab";
+import OrdersTab from "./profile-modal/tabs/OrdersTab";
+import ReturnTab from "./profile-modal/tabs/ReturnTab";
+import HelpCenterTab from "./profile-modal/tabs/HelpCenterTab";
 
 gsap.registerPlugin(useGSAP);
 
@@ -19,6 +24,10 @@ type ProfileModalProps = {
 
 function getTabId(tab: ProfileTab) {
   return `tab-${tab.toLowerCase().replace(/\s+/g, "-")}`;
+}
+
+function getPanelId(tab: ProfileTab) {
+  return `${getTabId(tab)}-panel`;
 }
 
 export default function ProfileModal({
@@ -137,7 +146,7 @@ export default function ProfileModal({
         tabIndex={-1}
         aria-label="Close profile"
         onClick={onClose}
-        className="absolute inset-0 cursor-default bg-black/50 p-0 backdrop-blur-md"
+        className="absolute inset-0 cursor-default bg-black/10 p-0 backdrop-blur-md"
       />
       <button
         ref={closeButtonRef}
@@ -155,7 +164,7 @@ export default function ProfileModal({
         aria-labelledby="profile-dialog-title"
         data-lenis-prevent
         ref={panelRef}
-        className="relative z-10 h-[95vh] max-h-[95vh] w-full overflow-y-auto rounded-t-md bg-white px-4 pb-10 text-zinc-950 shadow-2xl sm:px-6"
+        className="relative  z-10 h-[95vh] max-h-[95vh] w-full overflow-y-auto lg:overflow-y-hidden rounded-t-md bg-white px-4 pb-10 text-zinc-950 shadow-2xl sm:px-6"
       >
         <h1 id="profile-dialog-title" className="sr-only">
           Profile
@@ -173,7 +182,7 @@ export default function ProfileModal({
                 role="tab"
                 id={getTabId(tab)}
                 aria-selected={activeTab === tab}
-                aria-controls="profile-tabpanel"
+                aria-controls={getPanelId(tab)}
                 onClick={() => setActiveTab(tab)}
                 className={`shrink-0 cursor-pointer whitespace-nowrap text-sm font-semibold hover:text-[#999] ${
                   activeTab === tab ? "mute" : ""
@@ -205,17 +214,22 @@ export default function ProfileModal({
           </p>
         )}
 
-        <div
-          role="tabpanel"
-          id="profile-tabpanel"
-          aria-labelledby={getTabId(activeTab)}
-          className="mt-20 flex w-full flex-col gap-2"
-        >
-          <p className="text-sm font-semibold">
-            {activeTab === "Account" ? "Profile" : activeTab}
-          </p>
-          
-        </div>
+        {PROFILE_TABS.map((tab) => (
+          <div
+            key={tab}
+            role="tabpanel"
+            id={getPanelId(tab)}
+            aria-labelledby={getTabId(tab)}
+            hidden={activeTab !== tab}
+            className="mt-20 flex w-full flex-col gap-2"
+          >
+            {tab === "Account" && <AccountTab />}
+            {tab === "Shipping" && <ShippingTab />}
+            {tab === "Orders" && <OrdersTab />}
+            {tab === "Return" && <ReturnTab />}
+            {tab === "Help Center" && <HelpCenterTab />}
+          </div>
+        ))}
       </section>
     </div>
   );
