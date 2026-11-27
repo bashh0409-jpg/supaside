@@ -160,13 +160,11 @@ export default function ProfileModal({
         <h1 id="profile-dialog-title" className="sr-only">
           Profile
         </h1>
-        <div
-          className="grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-4 py-4"
-        >
+        <div className="flex w-full items-center justify-between gap-4 ">
           <div
             role="tablist"
             aria-label="Profile sections"
-            className="flex min-w-0 items-center justify-start gap-3 overflow-x-auto capitalize"
+            className="flex min-w-0 items-center justify-start gap-4 overflow-x-auto capitalize"
           >
             {PROFILE_TABS.map((tab) => (
               <button
@@ -185,8 +183,10 @@ export default function ProfileModal({
               </button>
             ))}
           </div>
-          <span className="shrink-0 text-sm font-semibold">SS</span>
-          <div className="flex items-center justify-self-end gap-3 p-2 sm:gap-8">
+          <span className="shrink-0 text-sm  absolute left-1/2 -translate-x-1/2 font-semibold">
+            <img src="/logo.jpg" alt="Logo" className="ml-2 h-6 w-auto" />
+          </span>
+          <div className="flex items-center p-2 sm:gap-8">
             <span className="text-sm font-semibold">Settings</span>
             <button
               type="button"
@@ -214,6 +214,7 @@ export default function ProfileModal({
           <p className="text-sm font-semibold">
             {activeTab === "Account" ? "Profile" : activeTab}
           </p>
+          
         </div>
       </section>
     </div>
