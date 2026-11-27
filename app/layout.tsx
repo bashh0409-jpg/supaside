@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import SmoothScroll from "./components/SmoothScroll";
 import CartProvider from "./components/CartProvider";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +27,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <SpeedInsights />
+      <Analytics />
       <head>
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="https://cdn.visitors.now/v.js" data-token="1c160c9a-d0fa-4abd-a8e6-f82159dab637"></script>
+        <script
+          src="https://cdn.visitors.now/v.js"
+          data-token="1c160c9a-d0fa-4abd-a8e6-f82159dab637"
+        ></script>
       </head>
       <body className="min-h-full font-sans tracking-tight flex flex-col">
         <SmoothScroll />
