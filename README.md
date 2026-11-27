@@ -34,6 +34,14 @@ Supabase secret or service-role key in a `NEXT_PUBLIC_` variable. Keep
 `RESEND_API_KEY` server-side; add it to your deployment's environment variables
 as well.
 
+### Profile data
+
+The account form stores names and phone numbers in `public.profiles`. Apply the
+profile access and account-deletion migrations to your Supabase project with
+`supabase db push` after linking the project. Account deletion also requires
+`SUPABASE_SERVICE_ROLE_KEY` in the server environment. Keep it secret and never
+prefix it with `NEXT_PUBLIC_`.
+
 Enable the Email, Google, Apple, and Facebook providers under
 **Authentication → Sign In / Providers** in Supabase. Configure each OAuth
 provider's credentials there, then add

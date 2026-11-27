@@ -7,6 +7,7 @@ import { MdOutlineClose } from "react-icons/md";
 import CartItem from "./CartItem";
 import { useCart } from "../lib/cart-context";
 import { sampleProducts, sampleUkSizes } from "../lib/products";
+import { useDialogBehavior } from "../lib/useDialogBehavior";
 
 gsap.registerPlugin(useGSAP);
 
@@ -92,22 +93,7 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
       return;
     }
 
-    const previousFocus =
-      document.activeElement instanceof HTMLElement &&
-      document.activeElement !== document.body
-        ? document.activeElement
-        : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
-
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-        return;
-      }
-
       if (event.key !== "Tab" || !panelRef.current) {
         return;
       }
@@ -132,10 +118,10 @@ export default function CartDrawer({ open, onClose }: CartDrawerProps) {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
-      previousFocus?.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
+
+  useDialogBehavior(open, onClose, closeButtonRef);
 
   return (
     <div

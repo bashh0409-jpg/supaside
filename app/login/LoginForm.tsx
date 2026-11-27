@@ -1,11 +1,10 @@
 "use client";
 
-import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { FaApple, FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { getSupabaseConfig } from "../lib/supabase/config";
+import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
 type Provider = "google" | "apple" | "facebook";
@@ -77,8 +76,8 @@ export default function LoginForm() {
     event.preventDefault();
     setMessage("");
 
-    const config = getSupabaseConfig();
-    if (!config) {
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase) {
       showError(
         "Authentication is not configured yet. Add the Supabase URL and public key to your environment.",
       );
@@ -87,7 +86,6 @@ export default function LoginForm() {
 
     setPendingMethod("email");
     try {
-      const supabase = createBrowserClient(config.url, config.key);
       const emailRedirectTo = new URL("/auth/callback", window.location.origin);
       emailRedirectTo.searchParams.set("welcome", "1");
 
@@ -117,8 +115,8 @@ export default function LoginForm() {
   async function handleOAuthSignIn(provider: Provider) {
     setMessage("");
 
-    const config = getSupabaseConfig();
-    if (!config) {
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase) {
       showError(
         "Authentication is not configured yet. Add the Supabase URL and public key to your environment.",
       );
@@ -127,7 +125,6 @@ export default function LoginForm() {
 
     setPendingMethod(provider);
     try {
-      const supabase = createBrowserClient(config.url, config.key);
       const redirectTo = new URL("/auth/callback", window.location.origin);
       redirectTo.searchParams.set("welcome", "1");
       const { error } = await supabase.auth.signInWithOAuth({

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Product } from "../lib/products";
+import { formatPrice } from "../lib/pricing";
 
 type CartItemProps = {
   product: Product;
@@ -9,9 +10,6 @@ type CartItemProps = {
   onQuantityChange: (quantity: number) => void;
   onRemove: () => void;
 };
-
-const formatPrice = (priceCents: number) =>
-  `${Math.round(priceCents / 100)} ZAR`;
 
 export default function CartItem({
   product,

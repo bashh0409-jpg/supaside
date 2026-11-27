@@ -5,30 +5,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import type { Product } from "../lib/products";
+import { formatPrice, getDiscountPercentage } from "../lib/pricing";
 
 interface ProductCardProps {
   product: Product;
 }
 
-const formatPrice = (priceCents: number) =>
-  new Intl.NumberFormat("en-ZA", {
-    style: "currency",
-    currency: "ZAR",
-    maximumFractionDigits: 0,
-  }).format(priceCents / 100);
-
 const ProductCard = ({ product }: ProductCardProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const productHref = `/${product.id}`;
-  const discountPercentage =
-    product.compareAtPriceCents &&
-    product.compareAtPriceCents > product.priceCents
-      ? Math.round(
-          ((product.compareAtPriceCents - product.priceCents) /
-            product.compareAtPriceCents) *
-            100,
-        )
-      : 0;
+  const discountPercentage = getDiscountPercentage(
+    product.priceCents,
+    product.compareAtPriceCents,
+  );
 
   return (
     <article

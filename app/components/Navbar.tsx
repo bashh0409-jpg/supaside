@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { createBrowserClient } from "@supabase/ssr";
 import Image from "next/image";
 import Link from "next/link";
 import { BiSearch } from "react-icons/bi";
 import { getSupabaseConfig } from "../lib/supabase/config";
+import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 import { useCart } from "../lib/cart-context";
 import ProfileModal from "./ProfileModal";
 import SearchModal from "./SearchModal";
@@ -45,7 +45,10 @@ export default function Navbar() {
       return;
     }
 
-    const supabase = createBrowserClient(supabaseUrl, supabaseKey);
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase) {
+      return;
+    }
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {

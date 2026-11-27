@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { IconType } from "react-icons";
 import { BiSearch } from "react-icons/bi";
@@ -8,6 +8,7 @@ import { MdOutlineTrendingUp, MdOutlineBackspace } from "react-icons/md";
 import { CgAdidas } from "react-icons/cg";
 import { SiNike, SiNewbalance } from "react-icons/si";
 import { sampleProducts } from "../lib/products";
+import { useDialogBehavior } from "../lib/useDialogBehavior";
 
 type SearchModalProps = {
   open: boolean;
@@ -56,28 +57,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
     onClose();
   }, [onClose]);
 
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    inputRef.current?.focus();
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeModal();
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [closeModal, open]);
+  useDialogBehavior(open, closeModal, inputRef);
 
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();

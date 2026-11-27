@@ -10,13 +10,7 @@ import type { Product } from "../lib/products";
 import { useCart } from "../lib/cart-context";
 import Footer from "../components/Footer";
 import CloseButton from "../components/CloseButton";
-
-const formatPrice = (priceCents: number) =>
-  new Intl.NumberFormat("en-ZA", {
-    style: "currency",
-    currency: "ZAR",
-    maximumFractionDigits: 0,
-  }).format(priceCents / 100);
+import { formatPrice, getDiscountPercentage } from "../lib/pricing";
 
 interface ProductDetailsProps {
   product: Product;
@@ -63,14 +57,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     Math.max(productImages.length - 3, 0),
   );
   const compareAtPriceCents = product.compareAtPriceCents;
-  const discountPercentage =
-    compareAtPriceCents !== undefined &&
-    compareAtPriceCents > product.priceCents
-    ? Math.round(
-        ((compareAtPriceCents - product.priceCents) / compareAtPriceCents) *
-          100,
-      )
-    : 0;
+  const discountPercentage = getDiscountPercentage(
+    product.priceCents,
+    compareAtPriceCents,
+  );
 
   return (
     <div className="flex flex-col w-full">
