@@ -1,8 +1,8 @@
 import { Resend } from "resend";
 
 const SITE_URL = "https://www.supaside.store";
-const SUPPORT_EMAIL = "info@supaside.store";
-// Public PNG, e.g. put logo-email.png in your Next.js /public folder
+const FROM_EMAIL = "info@supaside.store";
+const SUPPORT_EMAIL = "support@supaside.store";
 const LOGO_URL = `${SITE_URL}/logo.jpg`;
 
 function escapeHtml(value: string) {
@@ -64,7 +64,7 @@ export async function sendWelcomeEmail(
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send(
     {
-      from: `Supaside <${SUPPORT_EMAIL}>`,
+      from: `Supaside <${FROM_EMAIL}>`,
       to,
       replyTo: SUPPORT_EMAIL,
       subject: "Welcome to Supaside",

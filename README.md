@@ -20,7 +20,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 The `/login` and `/signup` routes use the same email form and magic-link flow.
 Supabase signs in existing users or creates new accounts automatically. Both
-routes also support Google, Apple, and Facebook OAuth. Add the Supabase project
+routes also support Google, Apple, and X OAuth 2.0. Add the Supabase project
 URL and public key to `.env.local`:
 
 ```bash
@@ -42,13 +42,14 @@ profile access and account-deletion migrations to your Supabase project with
 `SUPABASE_SERVICE_ROLE_KEY` in the server environment. Keep it secret and never
 prefix it with `NEXT_PUBLIC_`.
 
-Enable the Email, Google, Apple, and Facebook providers under
+Enable the Email, Google, Apple, and X / Twitter (OAuth 2.0) providers under
 **Authentication → Sign In / Providers** in Supabase. Configure each OAuth
-provider's credentials there, then add
+provider's credentials there. For X, use its OAuth 2.0 client ID and client
+secret. Then add
 `http://localhost:3000/auth/callback` and your deployed
 `https://your-domain/auth/callback` URL to Supabase's allowed redirect URLs.
 Use the Supabase OAuth callback URL shown in the provider settings as the
-authorized redirect URL in the Google, Apple, and Facebook developer consoles.
+authorized redirect URL in the Google, Apple, and X developer consoles.
 Configure email delivery in Supabase for magic links, especially before
 production.
 

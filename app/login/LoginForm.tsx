@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useState, useSyncExternalStore, type FormEvent } from "react";
-import { FaApple, FaFacebookF } from "react-icons/fa";
+import { FaApple } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
-type Provider = "google" | "apple" | "facebook";
+type Provider = "google" | "apple" | "x";
 const authErrorMessages: Record<string, string> = {
   auth_not_configured:
     "Authentication is not configured yet. Please try again later.",
@@ -213,18 +214,18 @@ export default function LoginForm() {
         </button>
         <button
           type="button"
-          onClick={() => handleOAuthSignIn("facebook")}
+          onClick={() => handleOAuthSignIn("x")}
           disabled={pendingMethod !== null}
           className="flex p-1 px-1 pr-4 items-center cursor-pointer duration-400  justify-center gap-1 rounded-full bg-black/10   text-xs font-semibold text-black transition hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className="bg-black/10 rounded-full p-0.5  text-black font-medium items-center">
-            <FaFacebookF
+            <FaXTwitter
               aria-hidden="true"
-              className="text-[#1877F2]"
+              className="text-black"
               size={18}
             />
           </span>
-          {pendingMethod === "facebook" ? "Connecting..." : "Facebook"}
+          {pendingMethod === "x" ? "Connecting..." : "X (Twitter)"}
         </button>
       </div>
       <p className="px-1 text-xs text-center font-semibold leading-snug mute">
