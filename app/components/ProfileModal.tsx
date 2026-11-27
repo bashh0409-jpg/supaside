@@ -1,12 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { MdOutlineClose } from "react-icons/md";
+import { createBrowserClient } from "@supabase/ssr";
+import { getSupabaseConfig } from "../lib/supabase/config";
 
 gsap.registerPlugin(useGSAP);
+
+const TABS = [
+  "Account Info",
+  "Shipping",
+  "Orders",
+  "Returns",
+  "Help Center",
+] as const;
+type Tab = (typeof TABS)[number];
 
 type ProfileModalProps = {
   open: boolean;
@@ -32,6 +43,33 @@ export default function ProfileModal({
   const panelRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [activeTab, setActiveTab] = useState<Tab>("Account Info");
+  const [signOutPending, setSignOutPending] = useState(false);
+  const [signOutError, setSignOutError] = useState<string | null>(null);
+
+  async function handleSignOut() {
+    setSignOutError(null);
+    const config = getSupabaseConfig();
+    if (!config) {
+      setSignOutError("Sign out is unavailable. Please try again later.");
+      return;
+    }
+
+    setSignOutPending(true);
+    try {
+      const supabase = createBrowserClient(config.url, config.key);
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw error;
+      }
+      onClose();
+    } catch (error) {
+      console.error("Unable to sign out:", error);
+      setSignOutError("Unable to sign out. Please try again.");
+    } finally {
+      setSignOutPending(false);
+    }
+  }
 
   useGSAP(
     () => {
@@ -54,7 +92,10 @@ export default function ProfileModal({
 
       const timeline = gsap.timeline({
         paused: true,
-        onReverseComplete: () => gsap.set(modal, { autoAlpha: 0 }),
+        onReverseComplete: () => {
+          gsap.set(modal, { autoAlpha: 0 });
+          setActiveTab("Account Info");
+        },
       });
       timeline.to(
         backdrop,
@@ -154,8 +195,70 @@ export default function ProfileModal({
         aria-labelledby="profile-modal-title"
         data-lenis-prevent
         ref={panelRef}
-        className="relative z-10 h-[93vh] max-h-[93vh] w-full overflow-y-auto rounded-t-lg bg-white px-6 pb-10 text-zinc-950 shadow-2xl sm:px-8"
+        className="relative z-10 h-[95vh] max-h-[95vh] w-full overflow-y-auto rounded-t-md bg-white px-4 pb-10 text-zinc-950 shadow-2xl sm:px-6"
       >
+        <div className="flex w-full justify-between items-center">
+          <div role="tablist" className="flex gap-6 capitalize items-center">
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab}
+                onClick={() => setActiveTab(tab)}
+                className={`text-sm cursor-pointer underline-offset-2 hover:underline hover:text-[#999] font-semibold ${
+                  activeTab === tab ? "underline mute" : ""
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          <button className="text-sm font-semibold">Supaside</button>
+
+          <div className="flex gap-8 items-center p-2">
+            <button className="text-sm cursor-pointer font-semibold">
+              {user?.email}
+            </button>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              disabled={signOutPending}
+              className="text-sm cursor-pointer font-semibold disabled:cursor-wait disabled:opacity-60"
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+        {signOutError && (
+          <p role="alert" className="mt-4 text-sm text-red-600">
+            {signOutError}
+          </p>
+        )}
+
+        <div role="tabpanel" className="flex w-full mt-20 flex-col gap-2">
+          <p className="text-sm font-semibold">
+            {activeTab}
+          </p>
+
+          {activeTab === "Account Info" && (
+            <span className="text-sm">Hello, {getDisplayName(user)}</span>
+          )}
+          {activeTab === "Orders" && (
+            <p className="text-sm">Your orders will show here.</p>
+          )}
+          {activeTab === "Returns" && (
+            <p className="text-sm">Your returns will show here.</p>
+          )}
+          {activeTab === "Shipping" && (
+            <p className="text-sm">Your shipping information will show here.</p>
+          )}
+          {activeTab === "Help Center" && (
+            <p className="text-sm">Help center content will show here.</p>
+          )}
+        </div>
       </section>
     </div>
   );
