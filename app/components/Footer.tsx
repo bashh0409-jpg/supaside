@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
@@ -51,18 +52,18 @@ const Footer = () => {
         <p className="text-sm  cursor-pointer font-semibold duration-500 hover:bg-blue-700 p-1">
           ©2026
         </p>
-        <a
+        <Link
           href="/terms"
           className="text-sm  cursor-pointer hover:bg-blue-700 p-1 duration-500 font-semibold"
         >
           Terms of use
-        </a>
-        <a
+        </Link>
+        <Link
           href="/privacy"
           className="text-sm cursor-pointer hover:bg-blue-700 p-1 duration-500 font-semibold"
         >
           Privacy policy
-        </a>
+        </Link>
       </div>
       <div className="h-[clamp(3rem,14vw,16rem)] w-full overflow-hidden">
         <p className="relative cursor-pointer whitespace-nowrap text-center text-[clamp(5rem,23vw,25rem)] font-bold leading-none tracking-tighter">
