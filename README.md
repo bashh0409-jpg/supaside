@@ -36,11 +36,12 @@ as well.
 
 ### Profile data
 
-The account form stores names and phone numbers in `public.profiles`. Apply the
-profile access and account-deletion migrations to your Supabase project with
-`supabase db push` after linking the project. Account deletion also requires
-`SUPABASE_SERVICE_ROLE_KEY` in the server environment. Keep it secret and never
-prefix it with `NEXT_PUBLIC_`.
+The account form stores names and phone numbers in `public.profiles`; the
+Shipping tab stores the user's default address in `public.addresses`. Apply the
+profile, address access, and account-deletion migrations to your Supabase
+project with `supabase db push` after linking the project. Account deletion
+also requires `SUPABASE_SERVICE_ROLE_KEY` in the server environment. Keep it
+secret and never prefix it with `NEXT_PUBLIC_`.
 
 Enable the Email, Google, Apple, and X / Twitter (OAuth 2.0) providers under
 **Authentication → Sign In / Providers** in Supabase. Configure each OAuth
