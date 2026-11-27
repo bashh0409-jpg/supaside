@@ -493,7 +493,7 @@ export default function ProfileModal({
               disabled={signOutPending}
               className="cursor-pointer text-sm font-semibold disabled:cursor-wait disabled:opacity-60"
             >
-              {signOutPending ? "Signing out…" : "Sign Out"}
+              {signOutPending ? "Sign out…" : "Sign Out"}
             </button>
           </div>
         </div>
