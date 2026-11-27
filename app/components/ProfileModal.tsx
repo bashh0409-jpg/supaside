@@ -32,6 +32,7 @@ function getPanelId(tab: ProfileTab) {
 
 export default function ProfileModal({
   open,
+  user,
   onClose,
 }: ProfileModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
@@ -223,7 +224,7 @@ export default function ProfileModal({
             hidden={activeTab !== tab}
             className="mt-20 flex w-full flex-col gap-2"
           >
-            {tab === "Account" && <AccountTab />}
+            {tab === "Account" && <AccountTab user={user} />}
             {tab === "Shipping" && <ShippingTab />}
             {tab === "Orders" && <OrdersTab />}
             {tab === "Return" && <ReturnTab />}
