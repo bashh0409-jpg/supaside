@@ -1,10 +1,12 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { Resend } from "resend";
 
 const SITE_URL = "https://www.supaside.store";
 const FROM_EMAIL = "info@supaside.store";
 const SUPPORT_EMAIL = "support@supaside.store";
-const LOGO_URL = `${SITE_URL}/logo.jpg`;
 const LOGO_CONTENT_ID = "supaside-logo";
+const LOGO_PATH = join(process.cwd(), "public", "logo.jpg");
 
 function escapeHtml(value: string) {
   return value
@@ -63,6 +65,7 @@ export async function sendWelcomeEmail(
     "<p>The Supaside team</p>";
 
   const resend = new Resend(apiKey);
+  const logo = await readFile(LOGO_PATH);
   const { error } = await resend.emails.send(
     {
       from: `Supaside <${FROM_EMAIL}>`,
@@ -73,7 +76,7 @@ export async function sendWelcomeEmail(
       html,
       attachments: [
         {
-          path: LOGO_URL,
+          content: logo,
           filename: "supaside-logo.jpg",
           contentType: "image/jpeg",
           contentId: LOGO_CONTENT_ID,
