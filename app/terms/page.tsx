@@ -8,26 +8,22 @@ export const metadata: Metadata = {
 
 const sectionClass = "space-y-2";
 const headingClass = "text-lg font-semibold";
-const paragraphClass = "text-sm leading-6 text-zinc-600";
+const paragraphClass = "text-xs leading-tight font-semibold mute";
 
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-white px-5 pb-16 pt-8 text-zinc-950 sm:px-8">
       <div className="mx-auto max-w-3xl">
-        <header className="mb-12 flex items-center justify-between border-b border-zinc-200 pb-5">
+        <header className="mb-12 flex items-center justify-between">
           <Link href="/" className="text-lg font-semibold tracking-tight">
-            Supaside
+           <img src="/logo.jpg" className="w-10" alt="" />
           </Link>
-          <Link href="/privacy" className="text-sm underline underline-offset-4">
-            Privacy Policy
-          </Link>
+          
         </header>
 
         <article className="space-y-8">
           <header className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Legal info
-            </p>
+           
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Terms of Service
             </h1>
@@ -94,9 +90,12 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <nav className="border-t border-zinc-200 pt-6">
-            <Link href="/" className="text-sm underline underline-offset-4">
-              Back to Supaside
+          <nav className="border-t gap-2 flex border-zinc-200 pt-6">
+            <Link href="/" className="text-sm  font-semibold border border-dashed p-1">
+              Supaside
+            </Link>
+            <Link href="/privacy" className="text-sm font-semibold border border-dashed p-1">
+              Privacy
             </Link>
           </nav>
         </article>
