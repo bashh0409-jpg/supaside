@@ -13,6 +13,7 @@ const page = () => {
       <Navbar />
       <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
         <HeroVideo playbackId={process.env.NEXT_PUBLIC_MUX_PLAYBACK_ID} />
+        
         <div aria-hidden="true" className="absolute inset-0 bg-black/25" />
         <Link
           href="/shop"
