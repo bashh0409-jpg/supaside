@@ -26,7 +26,7 @@ export default function TermsPage() {
         <article className="space-y-8">
           <header className="space-y-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Legal
+              Legal info
             </p>
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               Terms of Service
