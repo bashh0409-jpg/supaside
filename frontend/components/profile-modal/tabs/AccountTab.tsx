@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
+import PasskeyDetails from "./PasskeyDetails";
 import ShippingDetails from "./ShippingDetails";
 
 type AccountTabProps = {
@@ -165,6 +166,9 @@ export default function AccountTab({ user }: AccountTabProps) {
         </section>
         <div className="mt-12">
           <ShippingDetails userId={user.id} showControls={false} />
+        </div>
+        <div className="mt-12">
+          <PasskeyDetails />
         </div>
       </div>
     </div>
