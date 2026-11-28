@@ -225,7 +225,7 @@ export default function ProfileModal({
             className="mt-20 flex w-full flex-col gap-2"
           >
             {tab === "Account" && <AccountTab user={user} />}
-            {tab === "Shipping" && <ShippingTab />}
+            {tab === "Shipping" && <ShippingTab userId={user.id} />}
             {tab === "Orders" && <OrdersTab />}
             {tab === "Return" && <ReturnTab />}
             {tab === "Help Center" && <HelpCenterTab />}

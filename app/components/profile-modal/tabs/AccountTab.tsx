@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
+import ShippingDetails from "./ShippingDetails";
 
 type AccountTabProps = {
   user: User;
@@ -110,12 +111,20 @@ export default function AccountTab({ user }: AccountTabProps) {
   const details = [
     {
       label: "Name",
-      value: profileLoading ? "Loading…" : profile.name,
+      value: profileLoading
+        ? "Loading…"
+        : `${profile.name}${
+            profileLoadError ? " (using sign-in details)" : ""
+          }`,
     },
     { label: "Email", value: email },
     {
       label: "Phone",
-      value: profileLoading ? "Loading…" : profile.phone,
+      value: profileLoading
+        ? "Loading…"
+        : `${profile.phone}${
+            profileLoadError ? " (using sign-in details)" : ""
+          }`,
     },
     { label: "Sign-in method", value: provider },
     { label: "Joined", value: createdAt },
@@ -123,25 +132,40 @@ export default function AccountTab({ user }: AccountTabProps) {
   ];
 
   return (
-    <div className="grid grid-cols-3  gap-4">
-      <span>
+    <div className="grid grid-cols-3 gap-4">
+      <figure>
         <img
           src="/logo.jpg"
           className="w-50 aspect-[4/5] object-cover"
           alt="Profile Image"
         />
-      </span>
-      <div className="col-span-2 grid grid-cols-2 w-full ">
-        {details.map((detail) => (
-          <div className="flex flex-col" key={detail.label}>
-            <p className="text-sm font-semibold">
-              {detail.label}: {detail.value}
-              {profileLoadError &&
-                (detail.label === "Name" || detail.label === "Phone") &&
-                " (using sign-in details)"}
-            </p>
-          </div>
-        ))}
+      </figure>
+      <div className="col-span-2 w-full">
+        <section>
+          <h2 className="mb-3 text-sm  hidden font-semibold">Personal details</h2>
+          <table className="w-full border-collapse text-left text-sm">
+            <caption className="sr-only">Your personal details</caption>
+            <tbody>
+              {details.map((detail) => (
+                <tr
+                  className="border-b border-gray-200"
+                  key={detail.label}
+                >
+                  <th
+                    scope="row"
+                    className="w-1/3 pb-3 pt-1 pr-4 font-semibold"
+                  >
+                    {detail.label}
+                  </th>
+                  <td className="pb-3 pt-1 font-semibold">: {detail.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+        <div className="mt-12">
+          <ShippingDetails userId={user.id} showControls={false} />
+        </div>
       </div>
     </div>
   );

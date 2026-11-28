@@ -14,51 +14,61 @@ type Order = {
 };
 
 // Replace with your real orders from Supabase
-const orders: Order[] = [
+export const orders: Order[] = [
   {
     id: "1001",
-    name: "Product name",
+    name: "5 Leaf clover bracelet",
     image: "/logo.jpg",
     date: "27 Nov 2026",
     status: "Processing",
-    courier: null,
-    trackingCode: 'eferfjh12e3erfuirrefhgrghfhrjgrfergverververwfq3egvtreftvbeqrv',
+    courier: "DHL",
+    trackingCode: 'SS_t5fe26fdsatvg54yegnme663',
     total: "R 499.00",
   },
   {
+    id: "10012",
+    name: "LG 4K ultra wide monitor",
+    image: "/logo.jpg",
+    date: "27 Nov 2026",
+    status: "Delivered",
+    courier: "Aramex",
+    trackingCode: 'SS_t5fe26fds4fcq3gnme663',
+    total: "R 9499.00",
+  },
+  {
     id: "1002",
-    name: "Another product",
+    name: "Clover enamel bracelet pack",
     image: "/logo.jpg",
     date: "20 Nov 2026",
-    status: "Delivered",
-    courier: null,
-    trackingCode: null,
+    status: "Shipped",
+    courier: 'RAM',
+    trackingCode: "SS_engdi530gdao58gyegnme663",
     total: "R 1,250.00",
   },
   {
     id: "10023",
-    name: "Another product",
+    name: "14ct rose plated mother of perl clover bracelet",
     image: "/logo.jpg",
     date: "20 Nov 2026",
     status: "Returned",
-    courier: null,
-    trackingCode: null,
+    courier: 'Courier Guy',
+    trackingCode: "SS_ftghd43fy67f546yegnme663",
     total: "R 1,250.00",
   },
 ];
 
 export default function OrdersTab() {
-  const [copyFeedback, setCopyFeedback] = useState<
-    Record<string, "copied" | "error">
-  >({});
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
-  async function copyTrackingCode(orderId: string, trackingCode: string) {
+  async function copyTrackingCode(code: string) {
     try {
-      await navigator.clipboard.writeText(trackingCode);
-      setCopyFeedback((current) => ({ ...current, [orderId]: "copied" }));
+      await navigator.clipboard.writeText(code);
+      setCopiedCode(code);
+      window.setTimeout(() => {
+        setCopiedCode((current) => (current === code ? null : current));
+      }, 1500);
     } catch (error) {
-      console.error("Unable to copy the order tracking code:", error);
-      setCopyFeedback((current) => ({ ...current, [orderId]: "error" }));
+      console.error("Unable to copy the tracking code:", error);
     }
   }
 
@@ -77,11 +87,11 @@ export default function OrdersTab() {
         <div className="flex h-full flex-col">
           {orders.length === 0 ? (
             <p className="mute font-mono text-xs font-medium uppercase">
-              You have no orders yet.
+              You have no recorded orders yet.
             </p>
           ) : (
             <div className="w-full overflow-x-auto">
-              <table className="w-full min-w-[760px] border-collapse text-left text-xs">
+              <table className="w-full min-w-[760px]  border-collapse text-left text-xs">
                 <caption className="sr-only">Your orders</caption>
                 <thead>
                   <tr className="mute  text-xs uppercase">
@@ -107,7 +117,8 @@ export default function OrdersTab() {
                       Total
                     </th>
                   </tr>
-                </thead>
+                  </thead>
+                  
                 <tbody>
                   {orders.map((order) => (
                     <tr key={order.id} className="border-b cursor-pointer border-gray-200">
@@ -120,7 +131,7 @@ export default function OrdersTab() {
                           />
                         </div>
                       </td>
-                      <td className="py-4 pr-4 font-semibold">{order.name}</td>
+                      <td className="py-4 pr-4 font-semibold truncate capitalize max-w-[10rem]">{order.name}</td>
                       <td className="mute font-semibold whitespace-nowrap py-4 pr-4">
                         {order.date}
                       </td>
@@ -129,31 +140,22 @@ export default function OrdersTab() {
                       </td>
                       <td className="whitespace-nowrap py-4 pr-4 font-semibold">
                         {order.trackingCode ? (
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              className="block max-w-[8rem] cursor-copy truncate border-0 bg-transparent p-0 text-left font-semibold"
-                              onClick={() =>
-                                void copyTrackingCode(order.id, order.trackingCode)
-                              }
-                              title={order.trackingCode}
-                              aria-label={`Copy tracking code ${order.trackingCode}`}
-                            >
-                              {order.trackingCode}
-                            </button>
-                            {copyFeedback[order.id] === "copied" && (
-                              <span className="mute" role="status">
-                                Copied
-                              </span>
-                            )}
-                            {copyFeedback[order.id] === "error" && (
-                              <span className="text-red-600" role="alert">
-                                Copy failed
-                              </span>
-                            )}
-                          </div>
+                          <button
+                            type="button"
+                            className="block max-w-[8rem] cursor-copy truncate text-left"
+                            title={
+                              copiedCode === order.trackingCode
+                                ? "Copied!"
+                                : `Copy ${order.trackingCode}`
+                            }
+                            onClick={() => void copyTrackingCode(order.trackingCode!)}
+                          >
+                            {copiedCode === order.trackingCode
+                              ? "Copied!"
+                              : order.trackingCode}
+                          </button>
                         ) : (
-                          "—"
+                          <span className="block">—</span>
                         )}
                       </td>
                       <td className="whitespace-nowrap py-4 pr-4 font-semibold ">
