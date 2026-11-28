@@ -4,6 +4,7 @@ const SITE_URL = "https://www.supaside.store";
 const FROM_EMAIL = "info@supaside.store";
 const SUPPORT_EMAIL = "support@supaside.store";
 const LOGO_URL = `${SITE_URL}/logo.jpg`;
+const LOGO_CONTENT_ID = "supaside-logo";
 
 function escapeHtml(value: string) {
   return value
@@ -46,7 +47,7 @@ export async function sendWelcomeEmail(
   ].join("\n");
 
   const html =
-    `<p><img src="${LOGO_URL}" alt="Supaside" width="40" height="40" /></p>` +
+    `<p><img src="cid:${LOGO_CONTENT_ID}" alt="Supaside" width="40" height="40" /></p>` +
     `<p>${escapeHtml(greeting)}</p>` +
     "<p>Welcome to Supaside.</p>" +
     "<p>Your email is verified and your account is ready.</p>" +
@@ -70,6 +71,14 @@ export async function sendWelcomeEmail(
       subject: "Welcome to Supaside",
       text,
       html,
+      attachments: [
+        {
+          path: LOGO_URL,
+          filename: "supaside-logo.jpg",
+          contentType: "image/jpeg",
+          contentId: LOGO_CONTENT_ID,
+        },
+      ],
     },
     { idempotencyKey: `welcome-user/${userId}` },
   );

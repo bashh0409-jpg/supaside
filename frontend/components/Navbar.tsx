@@ -5,8 +5,10 @@ import type { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import Link from "next/link";
 import { BiSearch } from "react-icons/bi";
-import { getSupabaseConfig } from "../lib/supabase/config";
-import { createSupabaseBrowserClient } from "../lib/supabase/browser";
+import {
+  createSupabaseBrowserClient,
+  getSupabaseConfig,
+} from "../lib/supabase/browser";
 import { useCart } from "../lib/cart-context";
 import ProfileModal from "./ProfileModal";
 import SearchModal from "./SearchModal";

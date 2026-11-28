@@ -367,30 +367,25 @@ export default function ShippingDetails({
 
   return (
     <section className={showControls ? "" : ""}>
-      {showControls && (
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-semibold">Shipping details</h2>
-          {!loading && (
-            <button
-              type="button"
-              onClick={openAddModal}
-              className="cursor-pointer text-sm font-semibold underline"
-            >
-              Add address
-            </button>
-          )}
-        </div>
-      )}
       {loading ? (
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left text-xs">
-            <caption className="sr-only">
-              Your saved shipping addresses
-            </caption>
+            <caption className="sr-only">Your saved shipping addresses</caption>
             <thead>
               <tr className="mute border-b border-gray-200 text-xs uppercase">
-                {["Recipient", "Address", "City", "Province", "Postal code", "Type"].map((heading) => (
-                  <th key={heading} scope="col" className="pb-3 pr-4 font-semibold">
+                {[
+                  "Recipient",
+                  "Address",
+                  "City",
+                  "Province",
+                  "Postal code",
+                  "Type",
+                ].map((heading) => (
+                  <th
+                    key={heading}
+                    scope="col"
+                    className="pb-3 pr-4 font-semibold"
+                  >
                     {heading}
                   </th>
                 ))}
@@ -479,13 +474,11 @@ export default function ShippingDetails({
                     </tr>
                   ))
                 )}
-               
               </tbody>
             </table>
           </div>
         </>
       )}
-
       {modalOpen && (
         <div
           className="fixed inset-0 z-[1300] flex items-center justify-center p-4"
@@ -599,7 +592,7 @@ export default function ShippingDetails({
                 <button
                   type="submit"
                   disabled={saving}
-                  className="cursor-pointer text-sm font-semibold bg-black text-white hover:bg-gray-800 px-3 py-0.5 disabled:cursor-wait disabled:opacity-60"
+                  className="cursor-pointer text-sm font-semibold border border-dashed text-black  px-3 py-0.5 disabled:cursor-wait disabled:opacity-60"
                 >
                   {saving ? "Saving…" : "Save"}
                 </button>
@@ -615,6 +608,20 @@ export default function ShippingDetails({
               )}
             </form>
           </div>
+        </div>
+      )}{" "}
+      {showControls && (
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-sm hidden font-semibold">Shipping details</h2>
+          {!loading && (
+            <button
+              type="button"
+              onClick={openAddModal}
+              className="cursor-pointer hover:mute p-1 px-2 border border-dashed flex justify-end  text-xs hover:opacity-60 font-semibold"
+            >
+              Add Address
+            </button>
+          )}
         </div>
       )}
     </section>

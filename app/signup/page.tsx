@@ -1,4 +1,4 @@
-import AuthPage from "../components/AuthPage";
+import AuthPage from "@/frontend/components/AuthPage";
 
 export const metadata = {
   title: "Sign in or create an account | Supaside",

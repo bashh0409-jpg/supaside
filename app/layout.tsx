@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import SmoothScroll from "./components/SmoothScroll";
-import CartProvider from "./components/CartProvider";
+import SmoothScroll from "@/frontend/components/SmoothScroll";
+import CartProvider from "@/frontend/components/CartProvider";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";

@@ -1,10 +1,10 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import ProductCard from "./components/ProductCard";
-import Footer from "./components/Footer";
-import HeroVideo from "./components/HeroVideo";
+import Navbar from "@/frontend/components/Navbar";
+import ProductCard from "@/frontend/components/ProductCard";
+import Footer from "@/frontend/components/Footer";
+import HeroVideo from "@/frontend/components/HeroVideo";
 import { IoArrowUpOutline } from "react-icons/io5";
-import { sampleProducts } from "./lib/products";
+import { sampleProducts } from "@/frontend/lib/products";
 import Link from "next/link";
 
 const page = () => {

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
-import ProductById from "./ProductById";
-import { sampleProducts } from "../lib/products";
-import Navbar from "../components/Navbar";
+import ProductById from "@/frontend/products/ProductById";
+import { sampleProducts } from "@/frontend/lib/products";
+import Navbar from "@/frontend/components/Navbar";
 
 export function generateStaticParams() {
   return sampleProducts.map((product) => ({ id: product.id }));

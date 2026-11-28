@@ -1,11 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) storefront with a Supabase backend.
+
+## Project structure
+
+The repository is organised by responsibility so frontend and backend work can
+be managed independently without changing the public URLs.
+
+```text
+app/       Next.js route entry points only
+frontend/  React UI, client-side state, product presentation, browser Supabase client
+backend/   Server-only HTTP handlers and email service
+shared/    Safe configuration shared by the browser and server
+supabase/  Database schema and migrations
+```
+
+`app/api/account/route.ts` and `app/auth/callback/route.ts` are deliberately
+thin adapters. The account-deletion and auth-callback implementations live in
+`backend/http/`, so server behavior is not mixed into UI code. Keep secrets
+such as `RESEND_API_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in the backend only.
+
+For day-to-day work:
+
+- Build UI in `frontend/`; use `app/` only when adding or changing a URL.
+- Build API behavior in `backend/`, then expose it through a small route
+  adapter in `app/api/` or `app/auth/`.
+- Change database tables and policies through `supabase/migrations/`.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
-npm run dev
+npm run dev:frontend
 # or
 yarn dev
 # or
@@ -82,7 +107,8 @@ Set `NEXT_PUBLIC_MUX_PLAYBACK_ID` in `.env.local` to the public playback ID of
 your Mux asset. The hero plays that HLS stream; until it is set, it uses
 `public/hero.mp4`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the home route in `app/page.tsx` and the UI it composes
+in `frontend/`. The page auto-updates as you edit the files.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

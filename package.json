@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "npm run dev:frontend",
+    "dev:frontend": "next dev",
+    "build": "npm run build:frontend",
+    "build:frontend": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "npm run lint:frontend",
+    "lint:frontend": "eslint"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

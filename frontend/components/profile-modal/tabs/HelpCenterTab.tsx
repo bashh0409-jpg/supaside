@@ -95,7 +95,7 @@ export default function HelpCenterTab() {
                   onClick={() =>
                     setOpenQuestion(isOpen ? null : index)
                   }
-                  className="flex w-full cursor-pointer items-center justify-between gap-4 p-2 text-left text-sm font-semibold"
+                  className="flex w-full items-center justify-between gap-4 p-2 text-left text-sm font-semibold"
                 >
                   <span>{question}</span>
                 </button>
@@ -110,7 +110,7 @@ export default function HelpCenterTab() {
           })}
           <div className="rounded border border-dashed border-gray-300 p-3">
             <h2 className="text-sm font-semibold">Still need help?</h2>
-            <p className="mt-1 text-xs leading-relaxed mute">
+            <p className="mt-1 text-xs font-semibold leading-relaxed mute">
               Contact us at{" "}
               <a
                 href="mailto:info@supaside.store"
